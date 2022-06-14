@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,8 +30,8 @@ public class UsuarioServiceTest {
 
     @Test
     public void testBuscarUsuarioPorId(){
-        Long idBuscado=1L;
-        Optional<UsuarioModel> usuarioModelBuscado=usuarioRepository.findById(idBuscado);
+        Long idBuscado= 4L;
+        Optional<UsuarioModel> usuarioModelBuscado = usuarioRepository.findById(idBuscado);
         assertThat(usuarioModelBuscado.get().getId()).isEqualTo(idBuscado);
     }
 
@@ -38,5 +39,25 @@ public class UsuarioServiceTest {
     public void testListarUsuarios(){
         List<UsuarioModel> usuarioModelList=(List<UsuarioModel>) usuarioRepository.findAll();
         assertThat(usuarioModelList).size().isGreaterThan(0);
+    }
+
+    @Test
+    public void testBuscarUsuarioPorEmail(){
+        String emailBuscado = "oscar@mail.com";
+        ArrayList<UsuarioModel> usuarioModelBuscado=usuarioRepository.findByEmail(emailBuscado);
+        assertThat(usuarioModelBuscado.get(0).getEmail()).isEqualTo(emailBuscado);
+    }
+
+    @Test
+    public void testEliminarUsuarioPorCorreo(){
+        UsuarioModel usuarioEliminar = new UsuarioModel();
+        usuarioEliminar.setId(4L);
+        usuarioEliminar.setEmail("oscar@mail.com");
+        usuarioEliminar.setNombre("Oscar");
+        usuarioEliminar.setPrioridad(3);
+
+        usuarioRepository.delete(usuarioEliminar);
+
+        assertNotNull(usuarioEliminar);
     }
 }
