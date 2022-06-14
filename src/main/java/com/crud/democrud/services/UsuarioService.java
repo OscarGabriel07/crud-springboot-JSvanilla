@@ -48,6 +48,15 @@ public class UsuarioService {
         }
     }
 
+    public boolean eliminarUsuarioPorEmail(UsuarioModel usuarioEliminar) {
+        try{
+            usuarioRepository.delete(usuarioEliminar);
+            return true;
+        }catch(Exception err){
+            return false;
+        }
+    }
+
 
     
 }

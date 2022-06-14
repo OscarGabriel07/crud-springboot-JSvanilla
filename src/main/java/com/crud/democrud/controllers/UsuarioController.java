@@ -46,6 +46,7 @@ public class UsuarioController {
         return this.usuarioService.obtenerPorEmail(email);
     }
 
+/*
     @DeleteMapping(path = "/{id}")
     public String eliminarPorId(@PathVariable("id") Long id) {
         boolean ok = this.usuarioService.eliminarUsuario(id);
@@ -53,6 +54,24 @@ public class UsuarioController {
             return "Se eliminó el usuario con id " + id;
         } else {
             return "No pudo eliminar el usuario con id" + id;
+        }
+    }
+ */
+
+    /**
+     * Se crea endpoint para eliminar el usuario por correo
+     *
+     * @param email recibe el email del usuario a eliminar
+     * @return devuelve el resultado de la operación
+     */
+    @DeleteMapping(path = "/{email}")
+    public String eliminarPorEmail(@PathVariable("email") String email){
+        UsuarioModel usuarioEliminar = this.usuarioService.obtenerPorEmail(email).get(0);
+        boolean ok = this.usuarioService.eliminarUsuarioPorEmail(usuarioEliminar);
+        if (ok) {
+            return "Se eliminó el usuario con email " + email;
+        } else {
+            return "No se pudo eliminar el usuario con email " + email;
         }
     }
 
